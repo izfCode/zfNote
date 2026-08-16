@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "ZF·Notes 主页"
+    url: "https://github.com/izfCode/zfNote"
+    about: "代码、文档、下载都在这里"
+  - name: "ZF·Notes 最新发布"
+    url: "https://github.com/izfCode/zfNote/releases/latest"
+    about: "下载安装包前先看一眼最新版的说明"

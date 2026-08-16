@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint / Type / Test / Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check (renderer + main)
+        run: npm run build:check
+
+      - name: Unit / component tests
+        run: npm test
+
+      - name: Build (renderer + main, no packaging)
+        run: npm run build
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-build
+          path: |
+            dist/
+            dist-electron/
+          if-no-files-found: ignore
+          retention-days: 3
