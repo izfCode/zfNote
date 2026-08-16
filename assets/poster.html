@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>ZF·Notes Poster</title>
+<style>
+  :root {
+    --bg-1: #050816;
+    --bg-2: #0a0e1a;
+    --accent-1: #60a5fa;
+    --accent-2: #2563eb;
+    --accent-3: #1e3a8a;
+    --text: #e6edf7;
+    --muted: #94a3b8;
+    --line: rgba(148,163,184,.22);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:transparent; font-family: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; color:var(--text); }
+  .poster {
+    width: 1200px;
+    height: 1800px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(1100px 800px at 85% -8%, rgba(96,165,250,.32), transparent 60%),
+      radial-gradient(900px 700px at -10% 105%, rgba(37,99,235,.30), transparent 55%),
+      linear-gradient(165deg, #050816 0%, #0a0f24 35%, #14204a 70%, #1e3a8a 100%);
+  }
+  .poster::before {
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at 50% 40%, #000 35%, transparent 80%);
+    opacity:.55;
+  }
+  .stars { position:absolute; inset:0; pointer-events:none; }
+  .stars span { position:absolute; border-radius:50%; background:#fff; }
+
+  .wrap { position:relative; z-index:2; padding: 88px 80px 70px; height:100%; display:flex; flex-direction:column; }
+
+  /* top bar */
+  .top { display:flex; align-items:center; justify-content:space-between; }
+  .brand-row { display:flex; align-items:center; gap:20px; }
+  .logo {
+    width:72px; height:72px; border-radius:20px;
+    background: linear-gradient(135deg, #60a5fa, #2563eb 55%, #1e3a8a);
+    box-shadow: 0 18px 40px rgba(37,99,235,.45), inset 0 0 0 1px rgba(255,255,255,.18);
+    display:grid; place-items:center; color:#f8fafc; font-weight:700; font-size:34px; letter-spacing:-1px;
+    position:relative;
+  }
+  .logo::after {
+    content:""; position:absolute; right:0; top:0; width:18px; height:18px;
+    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.45) 50%);
+    border-bottom-left-radius:6px;
+  }
+  .brand-name { font-size:42px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+  .brand-name span { color: var(--accent-1); }
+  .brand-sub { color:var(--muted); margin-top:6px; font-size:16px; letter-spacing: 1px; }
+  .status {
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 16px; border-radius:999px;
+    background: rgba(15,23,42,.55); border:1px solid var(--line);
+    color:#cbd5e1; font-size:15px; font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .status .dot { width:8px; height:8px; border-radius:50%; background:#22c55e; box-shadow:0 0 12px #22c55e; }
+
+  /* hero text */
+  .hero { margin-top: 110px; }
+  .hero .kicker {
+    display:inline-flex; align-items:center; gap:10px;
+    padding:8px 16px; border-radius:999px;
+    background: rgba(96,165,250,.12); border:1px solid rgba(96,165,250,.35);
+    color:#bfdbfe; font-size:18px; font-weight:500; letter-spacing:.5px;
+  }
+  .hero .kicker::before { content:""; width:6px; height:6px; border-radius:50%; background: var(--accent-1); }
+  .hero .h1 {
+    margin-top: 30px;
+    font-size: 112px; font-weight: 900; line-height: 1.02; letter-spacing: -3px;
+    background: linear-gradient(180deg, #ffffff 0%, #cfe1ff 100%);
+    -webkit-background-clip: text; background-clip:text; color: transparent;
+  }
+  .hero .h1 em { font-style:normal; background: linear-gradient(135deg, #60a5fa, #93c5fd); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero .h2 {
+    margin-top: 36px; font-size: 32px; line-height:1.55; color:#cbd5e1; max-width: 980px; font-weight:400;
+  }
+  .hero .h2 strong { color:#f8fafc; font-weight:600; }
+
+  .feature-row { margin-top: 44px; display:flex; flex-wrap:wrap; gap:14px; }
+  .pill {
+    display:inline-flex; align-items:center; gap:10px;
+    padding: 14px 20px; border-radius:999px;
+    background: rgba(15,23,42,.55); border:1px solid var(--line);
+    color:#e2e8f0; font-size:20px; font-weight:500;
+    backdrop-filter: blur(8px);
+  }
+  .pill::before { content:""; width:8px; height:8px; border-radius:50%; background: var(--accent-1); box-shadow:0 0 10px var(--accent-1); }
+
+  /* screenshots */
+  .shots-wrap {
+    position:absolute; left:0; right:0; bottom: 200px; height: 600px; z-index:1;
+    pointer-events:none;
+  }
+  .shot {
+    position:absolute;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 60px 120px rgba(0,0,0,.55),
+      0 30px 60px rgba(37,99,235,.30),
+      0 0 0 1px rgba(255,255,255,.08) inset;
+  }
+  .shot img { width:100%; height:100%; object-fit:cover; object-position: top left; display:block; }
+  .shot-dark {
+    width: 720px; height: 440px;
+    left: 80px; bottom: 60px;
+    transform: rotate(-3deg);
+  }
+  .shot-light {
+    width: 520px; height: 320px;
+    right: 100px; bottom: 110px;
+    transform: rotate(2.8deg);
+    box-shadow:
+      0 40px 80px rgba(0,0,0,.6),
+      0 18px 36px rgba(96,165,250,.40),
+      0 0 0 1px rgba(255,255,255,.12) inset;
+  }
+  .shots-wrap::after {
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height: 220px;
+    background: linear-gradient(180deg, transparent 0%, rgba(5,8,22,.55) 60%, rgba(5,8,22,1) 100%);
+    pointer-events:none;
+  }
+
+  /* footer */
+  .footer {
+    position:relative; z-index:3; margin-top:auto;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    color:var(--muted); font-size:17px;
+  }
+  .footer .left { display:flex; flex-direction:column; gap:6px; }
+  .footer .cta { color:#f8fafc; font-size:24px; font-weight:600; letter-spacing:.3px; }
+  .footer .ver { font-size:15px; opacity:.85; }
+  .footer .right { display:flex; align-items:center; gap:18px; }
+  .footer .pill-mini {
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 8px 14px; border-radius:999px;
+    background: rgba(96,165,250,.10); border:1px solid rgba(96,165,250,.35);
+    color:#bfdbfe; font-size:15px; font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .footer .pill-mini::before { content:""; width:6px; height:6px; border-radius:50%; background: var(--accent-1); }
+
+  /* small decorative "terminal" line */
+  .terminal {
+    position:absolute; left:80px; bottom: 820px; z-index:3;
+    display:inline-flex; align-items:center; gap:12px;
+    padding: 10px 16px;
+    background: rgba(2,6,23,.7); border:1px solid var(--line);
+    border-radius: 10px;
+    color: #94a3b8; font-size:15px; font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  .terminal .arrow { color: var(--accent-1); }
+  .terminal .cmd { color:#e2e8f0; }
+  .terminal .caret {
+    display:inline-block; width:.55em; height:1em; vertical-align:-.12em;
+    background: var(--accent-1); border-radius:2px;
+  }
+
+  /* inline caret at end of hero title - thin and tall like a real cursor */
+  .caret-inline {
+    display:inline-block;
+    width: 4px;
+    height: .82em;
+    vertical-align: -.08em;
+    background: var(--accent-1);
+    border-radius: 1px;
+    margin-left: 8px;
+    box-shadow: 0 0 12px rgba(96,165,250,.65);
+  }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="stars">
+      <span style="left:682.5950704290211px;top:721.0632801242959px;width:2.605197436831638px;height:2.605197436831638px;opacity:0.6904632194276943;box-shadow:0 0 7.815592310494914px #fff"></span><span style="left:271.34605614379535px;top:93.55063420536038px;width:2.489459759912266px;height:2.489459759912266px;opacity:0.18014301381674958;box-shadow:0 0 7.468379279736798px #fff"></span><span style="left:575.1116223877447px;top:101.57470957376431px;width:2.5707158149517997px;height:2.5707158149517997px;opacity:0.2521997451438316;box-shadow:0 0 7.712147444855399px #fff"></span><span style="left:1045.0882146728968px;top:1715.7576491215589px;width:0.6909181211395072px;height:0.6909181211395072px;opacity:0.5428123324241025;box-shadow:0 0 2.0727543634185217px #fff"></span><span style="left:539.2159923183366px;top:651.1027340959092px;width:2.385241118254273px;height:2.385241118254273px;opacity:0.30783826819042903;box-shadow:0 0 7.15572335476282px #fff"></span><span style="left:72.5632567105647px;top:522.6559828418006px;width:2.2510350161342556px;height:2.2510350161342556px;opacity:0.6189750143187442;box-shadow:0 0 6.753105048402767px #fff"></span><span style="left:900.8083287936001px;top:1.3894652225549864px;width:1.5035230463055762px;height:1.5035230463055762px;opacity:0.492752744560041;box-shadow:0 0 4.510569138916729px #fff"></span><span style="left:449.678602448469px;top:701.2473046653446px;width:2.121007085893907px;height:2.121007085893907px;opacity:0.7376777419527043;box-shadow:0 0 6.363021257681721px #fff"></span><span style="left:224.24187633006514px;top:144.28030156033228px;width:1.1328872496736384px;height:1.1328872496736384px;opacity:0.7957111712588063;box-shadow:0 0 3.3986617490209152px #fff"></span><span style="left:340.90784913769687px;top:857.7579576231866px;width:0.703805890907593px;height:0.703805890907593px;opacity:0.2937230936171868;box-shadow:0 0 2.111417672722779px #fff"></span><span style="left:858.3118304203751px;top:307.59373594086196px;width:1.5316078029948663px;height:1.5316078029948663px;opacity:0.6344641635132529;box-shadow:0 0 4.594823408984599px #fff"></span><span style="left:35.79694811730336px;top:683.0186790206619px;width:1.437518485594865px;height:1.437518485594865px;opacity:0.8668659362089162;box-shadow:0 0 4.312555456784596px #fff"></span><span style="left:478.96470823429615px;top:1430.7276973081482px;width:0.931688261204683px;height:0.931688261204683px;opacity:0.38523055272642115;box-shadow:0 0 2.7950647836140488px #fff"></span><span style="left:517.4620650415919px;top:499.08322096804926px;width:1.4462012104690989px;height:1.4462012104690989px;opacity:0.34244898881972125;box-shadow:0 0 4.338603631407297px #fff"></span><span style="left:297.8618718199092px;top:170.7026721718056px;width:1.791239534552465px;height:1.791239534552465px;opacity:0.48459467099236175;box-shadow:0 0 5.3737186036573945px #fff"></span><span style="left:737.9484373610413px;top:580.1243935540876px;width:2.109048489205182px;height:2.109048489205182px;opacity:0.6695695583193998;box-shadow:0 0 6.327145467615546px #fff"></span><span style="left:1040.0583440492383px;top:1191.0252470678881px;width:1.136941605129672px;height:1.136941605129672px;opacity:0.584923904938534;box-shadow:0 0 3.4108248153890157px #fff"></span><span style="left:594.8328252140939px;top:136.40620170844068px;width:0.7473590220455638px;height:0.7473590220455638px;opacity:0.3897748536934836;box-shadow:0 0 2.2420770661366913px #fff"></span><span style="left:236.15547713802448px;top:1694.624282281657px;width:1.3890308752358185px;height:1.3890308752358185px;opacity:0.6563615385762317;box-shadow:0 0 4.167092625707456px #fff"></span><span style="left:421.08788576082407px;top:1129.797794085452px;width:1.8849902315891809px;height:1.8849902315891809px;opacity:0.38506748551872355;box-shadow:0 0 5.654970694767543px #fff"></span><span style="left:1001.595503185646px;top:1193.9604978591801px;width:0.8424323353686203px;height:0.8424323353686203px;opacity:0.7314546680447414;box-shadow:0 0 2.5272970061058606px #fff"></span><span style="left:325.9878963629708px;top:158.09124533449264px;width:2.462640380522855px;height:2.462640380522855px;opacity:0.48712791933461447;box-shadow:0 0 7.387921141568565px #fff"></span><span style="left:1137.6760987632738px;top:1463.1461600306227px;width:1.0037211067836405px;height:1.0037211067836405px;opacity:0.5220949054759514;box-shadow:0 0 3.0111633203509216px #fff"></span><span style="left:703.6047611287484px;top:1243.4341962126105px;width:2.0718009967890647px;height:2.0718009967890647px;opacity:0.793347982001676;box-shadow:0 0 6.215402990367194px #fff"></span><span style="left:1109.5033629276325px;top:1616.762833437057px;width:1.9661638145323859px;height:1.9661638145323859px;opacity:0.51135446380095;box-shadow:0 0 5.898491443597157px #fff"></span><span style="left:976.4943433156761px;top:1756.9338759043862px;width:1.6841766062733736px;height:1.6841766062733736px;opacity:0.5576422426463777;box-shadow:0 0 5.052529818820121px #fff"></span><span style="left:1004.380293079107px;top:1167.8578328810136px;width:1.9096113676621207px;height:1.9096113676621207px;opacity:0.747012638966736;box-shadow:0 0 5.728834102986362px #fff"></span><span style="left:85.8340174693502px;top:994.376703021492px;width:0.6464147479255749px;height:0.6464147479255749px;opacity:0.7437126912803806;box-shadow:0 0 1.9392442437767246px #fff"></span><span style="left:971.5873740854091px;top:1247.081212860096px;width:1.9597875507111056px;height:1.9597875507111056px;opacity:0.2072321111539343;box-shadow:0 0 5.879362652133317px #fff"></span><span style="left:63.27647270085799px;top:1089.1362087613716px;width:1.4816595162829942px;height:1.4816595162829942px;opacity:0.2928011325536742;box-shadow:0 0 4.444978548848983px #fff"></span><span style="left:288.2223770050925px;top:1719.5907807033898px;width:0.6187279642839387px;height:0.6187279642839387px;opacity:0.305455963589608;box-shadow:0 0 1.8561838928518162px #fff"></span><span style="left:742.1608963740141px;top:632.6455411190649px;width:1.6029194997908727px;height:1.6029194997908727px;opacity:0.548788787024992;box-shadow:0 0 4.808758499372618px #fff"></span><span style="left:921.8054423836052px;top:469.2091879625329px;width:2.529756984878346px;height:2.529756984878346px;opacity:0.8553662862608955;box-shadow:0 0 7.589270954635038px #fff"></span><span style="left:376.61337004416214px;top:1140.0933303420895px;width:1.9507835098156168px;height:1.9507835098156168px;opacity:0.8540666450425167;box-shadow:0 0 5.85235052944685px #fff"></span><span style="left:1185.1818454366723px;top:1200.2513326633734px;width:2.1106573516880927px;height:2.1106573516880927px;opacity:0.2644089836577584;box-shadow:0 0 6.331972055064278px #fff"></span><span style="left:697.5918027238919px;top:725.9834132888196px;width:2.632437642456079px;height:2.632437642456079px;opacity:0.5986381759105022;box-shadow:0 0 7.897312927368237px #fff"></span><span style="left:609.902710947504px;top:1069.2056562550943px;width:1.89444868670778px;height:1.89444868670778px;opacity:0.19171572565976658;box-shadow:0 0 5.68334606012334px #fff"></span><span style="left:627.8575072621805px;top:1745.5310890225999px;width:2.217201383584377px;height:2.217201383584377px;opacity:0.5051194403383161;box-shadow:0 0 6.651604150753131px #fff"></span><span style="left:1104.6864696135872px;top:1009.4564595992601px;width:1.1641914753021563px;height:1.1641914753021563px;opacity:0.6017342293047612;box-shadow:0 0 3.4925744259064686px #fff"></span><span style="left:876.9808355038872px;top:1663.8780647907759px;width:0.6665048703876139px;height:0.6665048703876139px;opacity:0.37382842489986945;box-shadow:0 0 1.9995146111628417px #fff"></span><span style="left:1169.3516806680198px;top:667.9015618466436px;width:2.3070902627921868px;height:2.3070902627921868px;opacity:0.7686981625816776;box-shadow:0 0 6.92127078837656px #fff"></span><span style="left:155.83365307312235px;top:945.4912171199717px;width:0.9899029954379456px;height:0.9899029954379456px;opacity:0.318731446267526;box-shadow:0 0 2.9697089863138366px #fff"></span><span style="left:1178.7312831252113px;top:649.2198052438841px;width:2.772326372827786px;height:2.772326372827786px;opacity:0.4431899985367431;box-shadow:0 0 8.316979118483358px #fff"></span><span style="left:1005.8867868421087px;top:832.318586562468px;width:1.0737497693904383px;height:1.0737497693904383px;opacity:0.3103306225625542;box-shadow:0 0 3.221249308171315px #fff"></span><span style="left:1120.4345179136424px;top:706.8853800556734px;width:2.1117468253197913px;height:2.1117468253197913px;opacity:0.4836445199969198;box-shadow:0 0 6.335240475959374px #fff"></span><span style="left:250.2618254298838px;top:62.69101860747399px;width:0.8138975526759953px;height:0.8138975526759953px;opacity:0.6730757581476723;box-shadow:0 0 2.4416926580279856px #fff"></span><span style="left:394.4739777168807px;top:861.3986360521475px;width:1.6286012608430602px;height:1.6286012608430602px;opacity:0.33012336535550485;box-shadow:0 0 4.88580378252918px #fff"></span><span style="left:655.3189932955827px;top:1084.663257253092px;width:1.878661649854763px;height:1.878661649854763px;opacity:0.5314314876132733;box-shadow:0 0 5.635984949564289px #fff"></span><span style="left:980.212324683763px;top:109.47374913362128px;width:1.0634910133941007px;height:1.0634910133941007px;opacity:0.201211620430356;box-shadow:0 0 3.190473040182302px #fff"></span><span style="left:737.492277929987px;top:446.8812657479404px;width:1.8896759812363828px;height:1.8896759812363828px;opacity:0.28837252008275427;box-shadow:0 0 5.669027943709148px #fff"></span><span style="left:397.2312776680532px;top:1560.5859553822265px;width:1.1629949481106328px;height:1.1629949481106328px;opacity:0.24225238791347858;box-shadow:0 0 3.488984844331898px #fff"></span><span style="left:432.978779319227px;top:979.0628864241264px;width:0.911306272896679px;height:0.911306272896679px;opacity:0.7533747299306142;box-shadow:0 0 2.7339188186900367px #fff"></span><span style="left:825.8524807101711px;top:645.0078020993826px;width:2.657237749396627px;height:2.657237749396627px;opacity:0.6100584213417488;box-shadow:0 0 7.9717132481898805px #fff"></span><span style="left:440.3472213990357px;top:21.725627841362737px;width:0.7620673245364373px;height:0.7620673245364373px;opacity:0.7072997703288542;box-shadow:0 0 2.286201973609312px #fff"></span><span style="left:713.7570319413607px;top:1492.9047810637346px;width:1.8453342079139623px;height:1.8453342079139623px;opacity:0.775911971354456;box-shadow:0 0 5.5360026237418865px #fff"></span><span style="left:941.2452946192434px;top:1359.4966966984728px;width:0.9666466835628102px;height:0.9666466835628102px;opacity:0.819331305724305;box-shadow:0 0 2.8999400506884307px #fff"></span><span style="left:1088.8590100344366px;top:1254.906399827291px;width:0.8350630476655221px;height:0.8350630476655221px;opacity:0.8624304486080567;box-shadow:0 0 2.5051891429965663px #fff"></span><span style="left:859.6410276373815px;top:1521.4149545067783px;width:2.7142976421168656px;height:2.7142976421168656px;opacity:0.3370096925540317;box-shadow:0 0 8.142892926350598px #fff"></span><span style="left:177.20531223109307px;top:1046.272129918714px;width:2.290555812316981px;height:2.290555812316981px;opacity:0.398815755991211;box-shadow:0 0 6.871667436950943px #fff"></span><span style="left:1107.6883038177157px;top:180.11111808022628px;width:1.1617279471926345px;height:1.1617279471926345px;opacity:0.34067635631466575;box-shadow:0 0 3.4851838415779035px #fff"></span><span style="left:264.243974398365px;top:421.08283093779295px;width:1.5161054496307336px;height:1.5161054496307336px;opacity:0.7539172162576331;box-shadow:0 0 4.5483163488922px #fff"></span><span style="left:1163.4491819635246px;top:350.50186741448266px;width:2.527701062990359px;height:2.527701062990359px;opacity:0.6948458480953479;box-shadow:0 0 7.583103188971077px #fff"></span><span style="left:169.94955111996725px;top:719.7289452848488px;width:1.8660635231461113px;height:1.8660635231461113px;opacity:0.26165097673214643;box-shadow:0 0 5.598190569438334px #fff"></span><span style="left:475.05797213250014px;top:1621.897377042581px;width:0.8101106329366036px;height:0.8101106329366036px;opacity:0.7376938564063591;box-shadow:0 0 2.430331898809811px #fff"></span><span style="left:600.1775040128855px;top:933.8481183517586px;width:2.6208931520000585px;height:2.6208931520000585px;opacity:0.2722608988310192;box-shadow:0 0 7.862679456000175px #fff"></span><span style="left:55.02830808408277px;top:1779.2373075572232px;width:2.5508586390607793px;height:2.5508586390607793px;opacity:0.6055151230394743;box-shadow:0 0 7.652575917182338px #fff"></span><span style="left:641.3256080692348px;top:154.72870317216876px;width:2.4657344599954034px;height:2.4657344599954034px;opacity:0.6666552885697588;box-shadow:0 0 7.397203379986211px #fff"></span><span style="left:879.4180621289473px;top:1030.7020277431704px;width:1.9411040729966471px;height:1.9411040729966471px;opacity:0.7260009634727771;box-shadow:0 0 5.823312218989941px #fff"></span><span style="left:771.4516635251888px;top:783.5861309128173px;width:2.4962316274626795px;height:2.4962316274626795px;opacity:0.7005244346883643;box-shadow:0 0 7.488694882388039px #fff"></span><span style="left:23.154029647346785px;top:215.372509180547px;width:0.6095971863967444px;height:0.6095971863967444px;opacity:0.33309355379054817;box-shadow:0 0 1.8287915591902333px #fff"></span><span style="left:128.18515471394036px;top:1366.2033176210393px;width:2.0922968867885348px;height:2.0922968867885348px;opacity:0.7779741926077923;box-shadow:0 0 6.276890660365604px #fff"></span><span style="left:423.34172871347613px;top:1214.3847598722366px;width:2.34276603664755px;height:2.34276603664755px;opacity:0.7783744044142613;box-shadow:0 0 7.02829810994265px #fff"></span><span style="left:570.2647323056161px;top:1374.3839353652547px;width:2.090807152180635px;height:2.090807152180635px;opacity:0.6012992748615357;box-shadow:0 0 6.272421456541905px #fff"></span><span style="left:1158.3989741053401px;top:118.79986343297422px;width:0.6490909273699952px;height:0.6490909273699952px;opacity:0.4467859338835131;box-shadow:0 0 1.9472727821099856px #fff"></span><span style="left:114.44914134342974px;top:249.53177410321138px;width:0.6943854843434115px;height:0.6943854843434115px;opacity:0.6861575764932728;box-shadow:0 0 2.0831564530302344px #fff"></span><span style="left:708.422490631257px;top:1743.1907810596597px;width:1.2062740479627296px;height:1.2062740479627296px;opacity:0.24095647300772272;box-shadow:0 0 3.618822143888189px #fff"></span><span style="left:194.72000224524984px;top:1622.7969319969147px;width:1.4860276516639528px;height:1.4860276516639528px;opacity:0.7919320103366652;box-shadow:0 0 4.458082954991858px #fff"></span><span style="left:601.0796388121242px;top:1304.7021890485235px;width:0.9418667389988797px;height:0.9418667389988797px;opacity:0.8322541175254146;box-shadow:0 0 2.825600216996639px #fff"></span><span style="left:290.14977775025545px;top:1705.539278870021px;width:1.6597279963710947px;height:1.6597279963710947px;opacity:0.39825714607093854;box-shadow:0 0 4.9791839891132845px #fff"></span><span style="left:842.8013603966552px;top:652.3646510834324px;width:1.4582413924093975px;height:1.4582413924093975px;opacity:0.5097528142362897;box-shadow:0 0 4.374724177228193px #fff"></span>
+    </div>
+
+    <div class="wrap">
+      <div class="top">
+        <div class="brand-row">
+          <div class="logo">&gt;_</div>
+          <div>
+            <div class="brand-name">ZF·<span>NOTES</span></div>
+            <div class="brand-sub">张帆笔记 · 桌面版</div>
+          </div>
+        </div>
+        <div class="status">
+          <span class="dot"></span><span>SYS.ONLINE · MEM 0.6KB · v1.0</span>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="kicker">全新发布 · 桌面端正式版</div>
+        <div class="h1">思考即星辰<br/>记录即轨迹<span class="caret-inline"></span></div>
+        <div class="h2">
+          一个轻量、<strong>本地化</strong>、支持 <strong>Markdown</strong> 的私人思考空间。<br/>
+          日夜双主题 · 全键盘操作 · 你的笔记，始终只属于你。
+        </div>
+        <div class="feature-row">
+          <span class="pill">本地存储 · 数据不出本机</span>
+          <span class="pill">Light / Dark 双主题</span>
+          <span class="pill">Markdown · 实时预览</span>
+          <span class="pill">标签 / 置顶 / 搜索</span>
+          <span class="pill">一键导出 .md / .txt / .json</span>
+          <span class="pill">Ctrl + N 立刻新建</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="left">
+          <div class="cta">现在就装上，开始记录你的下一个想法。</div>
+          <div class="ver">Windows · macOS · Linux · MIT License</div>
+        </div>
+        <div class="right">
+          <div class="pill-mini">$ zf-notes --start</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <span class="arrow">›</span>
+      <span class="cmd">zf-notes</span>
+      <span style="opacity:.5">—</span>
+      <span>ready</span>
+      <span class="caret"></span>
+    </div>
+
+    <div class="shots-wrap">
+      <div class="shot shot-dark">
+        <img src="file:///E:/Codeing/note/assets/poster-source/image-2.png" alt="ZF·Notes dark"/>
+      </div>
+      <div class="shot shot-light">
+        <img src="file:///E:/Codeing/note/assets/poster-source/image-1.png" alt="ZF·Notes light"/>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
