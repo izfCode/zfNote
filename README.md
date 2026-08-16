@@ -68,3 +68,25 @@ npm run test:watch  # 监视模式
 | `Esc` | 清空搜索 / 关闭弹层 |
 
 支持 Markdown 渲染、标签、置顶、Light/Dark 主题、HUD 状态条、自动保存、导出 Markdown / TXT / JSON、复制到剪贴板。
+
+
+## 常见问题
+
+### Electron 二进制没解压成功
+
+如果 `npm run dev` 报 `Electron failed to install correctly`，说明 `npm install` 时 Electron 的 postinstall（下载 ~100MB 二进制并解压到 `node_modules/electron/dist/`）被沙箱/网络拦了。手动修复：
+
+```bash
+# 1. 触发下载与解压
+node node_modules/electron/install.js
+# 如果上面卡住只下载了部分文件，直接用 PowerShell 解压缓存 zip：
+rm -r node_modules/electron/dist -Force
+Expand-Archive "$env:LOCALAPPDATA\electron\Cache\*\electron-v33.3.0-win32-x64.zip" \
+  -DestinationPath node_modules/electron/dist
+# 2. 写 path.txt（必须不带 CRLF，否则 spawn ENOENT）
+node -e "require('fs').writeFileSync('node_modules/electron/path.txt','electron.exe')"
+```
+
+### Git 写 .git 被拒
+
+`git add/commit` 在沙箱里写 `.git/index` 会被该用户上的 Deny 规则拦截，需要 escalated 权限执行。
