@@ -1,0 +1,66 @@
+{
+  "name": "zf-notes",
+  "productName": "ZF·Notes",
+  "version": "1.0.0",
+  "description": "张帆笔记 - 桌面客户端。一个轻量、本地化、支持 Markdown 的私人思考空间。",
+  "main": "dist-electron/main.js",
+  "author": {
+    "name": "ZhangFan"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n VITE,ELECTRON -c blue,green \"npm:dev:vite\" \"npm:dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on tcp:5173 && tsc -p electron/tsconfig.json && cross-env NODE_ENV=development electron .",
+    "build": "tsc -p electron/tsconfig.json && vite build",
+    "build:check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p electron/tsconfig.json",
+    "package:dir": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.1.0",
+    "@testing-library/user-event": "14.5.2",
+    "@types/node": "22.10.5",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "@vitejs/plugin-react": "4.3.4",
+    "@vitest/coverage-v8": "2.1.8",
+    "concurrently": "9.1.2",
+    "cross-env": "7.0.3",
+    "electron": "33.3.0",
+    "electron-builder": "25.1.8",
+    "jsdom": "25.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.7.2",
+    "vite": "5.4.11",
+    "vitest": "2.1.8",
+    "wait-on": "8.0.1"
+  },
+  "build": {
+    "appId": "com.zhangfan.zfnotes",
+    "productName": "ZF·Notes",
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "asar": true
+  }
+}
