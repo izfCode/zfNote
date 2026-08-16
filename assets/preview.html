@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ZF·Notes Logo Preview</title>
+<style>
+  :root {
+    --bg-light: #f8fafc;
+    --fg-light: #0f172a;
+    --bg-dark: #0a0e1a;
+    --fg-dark: #e0e7ff;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+  .panel {
+    padding: 48px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .panel.light  { background: var(--bg-light); color: var(--fg-light); }
+  .panel.dark   { background: var(--bg-dark);  color: var(--fg-dark); }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .icon-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .icon-wrap small { font-size: 12px; opacity: 0.6; }
+  .icon-256 img { width: 256px; height: 256px; display: block; }
+  .icon-128 img { width: 128px; height: 128px; display: block; }
+  .icon-64  img { width:  64px; height:  64px; display: block; }
+  .icon-32  img { width:  32px; height:  32px; display: block; }
+  .logo-full img { width: 380px; height: auto; display: block; }
+  .title {
+    font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    opacity: 0.5; font-weight: 600;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 0; opacity: 0.5; }
+  .panel.dark hr { border-top-color: #1a2235; }
+</style>
+</head>
+<body>
+
+  <section class="panel light">
+    <div class="title">Light theme · icon sizes</div>
+    <div class="row">
+      <div class="icon-wrap icon-256"><img src="icon.svg" alt=""><small>256</small></div>
+      <div class="icon-wrap icon-128"><img src="icon.svg" alt=""><small>128</small></div>
+      <div class="icon-wrap icon-64"><img src="icon.svg" alt=""><small>64</small></div>
+      <div class="icon-wrap icon-32"><img src="icon.svg" alt=""><small>32</small></div>
+    </div>
+    <hr>
+    <div class="title">Light theme · horizontal logo</div>
+    <div class="logo-full"><img src="logo-light.svg" alt="ZF·Notes logo"></div>
+  </section>
+
+  <section class="panel dark">
+    <div class="title">Dark theme · icon sizes</div>
+    <div class="row">
+      <div class="icon-wrap icon-256"><img src="icon.svg" alt=""><small>256</small></div>
+      <div class="icon-wrap icon-128"><img src="icon.svg" alt=""><small>128</small></div>
+      <div class="icon-wrap icon-64"><img src="icon.svg" alt=""><small>64</small></div>
+      <div class="icon-wrap icon-32"><img src="icon.svg" alt=""><small>32</small></div>
+    </div>
+    <hr>
+    <div class="title">Dark theme · horizontal logo</div>
+    <div class="logo-full"><img src="logo-dark.svg" alt="ZF·Notes logo"></div>
+  </section>
+
+</body>
+</html>

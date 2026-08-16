@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="ZF Notes icon">
+  <title>ZF·Notes icon</title>
+  <desc>Blue gradient note card with a terminal prompt and content lines.</desc>
+
+  <defs>
+    <linearGradient id="zfBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="55%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="zfShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="zfFold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#0c1a4a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 笔记卡主体 -->
+  <rect x="32" y="32" width="192" height="192" rx="32" ry="32"
+        fill="url(#zfBg)" stroke="#1e3a8a" stroke-width="2"/>
+
+  <!-- 顶部高光（深色背景下提升立体感） -->
+  <rect x="32" y="32" width="192" height="112" rx="32" ry="32" fill="url(#zfShine)"/>
+
+  <!-- 右上折角 -->
+  <path d="M 200 32 L 224 32 L 224 56 Z" fill="url(#zfFold)"/>
+  <path d="M 200 32 L 224 56 L 200 56 Z" fill="#0a0e1a" fill-opacity="0.22"/>
+
+  <!-- 终端提示符 >_ -->
+  <path d="M 76 96 L 56 116 L 76 136"
+        stroke="#ffffff" stroke-width="11" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="92" y="126" width="44" height="10" rx="3" fill="#ffffff"/>
+
+  <!-- 闪烁光标点 -->
+  <circle cx="156" cy="131" r="6" fill="#dbeafe"/>
+
+  <!-- 内容线 -->
+  <rect x="56" y="166" width="120" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.88"/>
+  <rect x="56" y="188" width="84"  height="9" rx="4.5" fill="#ffffff" fill-opacity="0.6"/>
+  <rect x="56" y="210" width="104" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.45"/>
+</svg>

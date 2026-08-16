@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" width="760" height="220" role="img" aria-label="ZF Notes logo on light background">
+  <title>ZF·Notes logo (light theme)</title>
+  <desc>Horizontal logo with blue gradient icon and dark text. Use on light backgrounds.</desc>
+
+  <defs>
+    <linearGradient id="zfBgL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="55%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="zfShineL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="zfFoldL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#0c1a4a"/>
+    </linearGradient>
+    <!-- 把 icon 内容定义为可复用符号 -->
+    <symbol id="zfIconLight" viewBox="0 0 256 256">
+      <rect x="32" y="32" width="192" height="192" rx="32" ry="32"
+            fill="url(#zfBgL)" stroke="#1e3a8a" stroke-width="2"/>
+      <rect x="32" y="32" width="192" height="112" rx="32" ry="32" fill="url(#zfShineL)"/>
+      <path d="M 200 32 L 224 32 L 224 56 Z" fill="url(#zfFoldL)"/>
+      <path d="M 200 32 L 224 56 L 200 56 Z" fill="#0a0e1a" fill-opacity="0.22"/>
+      <path d="M 76 96 L 56 116 L 76 136"
+            stroke="#ffffff" stroke-width="11" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="92" y="126" width="44" height="10" rx="3" fill="#ffffff"/>
+      <circle cx="156" cy="131" r="6" fill="#dbeafe"/>
+      <rect x="56" y="166" width="120" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.88"/>
+      <rect x="56" y="188" width="84"  height="9" rx="4.5" fill="#ffffff" fill-opacity="0.6"/>
+      <rect x="56" y="210" width="104" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.45"/>
+    </symbol>
+  </defs>
+
+  <!-- 左侧图标 -->
+  <use href="#zfIconLight" x="0" y="-18" width="220" height="220"/>
+
+  <!-- 右侧文字 -->
+  <g font-family="ui-monospace, 'JetBrains Mono', 'SF Mono', Consolas, 'Cascadia Mono', Menlo, monospace">
+    <text x="240" y="118" font-size="62" font-weight="800" fill="#0f172a" letter-spacing="-1.5">ZF·Notes</text>
+    <text x="242" y="160" font-size="22" font-weight="500" fill="#2563eb" letter-spacing="0.5">~/</text>
+    <text x="276" y="160" font-size="22" font-weight="500" fill="#475569" letter-spacing="0.5">张帆笔记</text>
+  </g>
+</svg>
