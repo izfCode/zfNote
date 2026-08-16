@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ 星辰笔记 - 你的私人思考空间</title>
+<style>
+  :root[data-theme="light"] {
+    --bg-primary: #fafaf9;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f5f5f4;
+    --bg-hover: #efefee;
+    --bg-active: #e7e5e4;
+    --border: #e7e5e4;
+    --border-strong: #d6d3d1;
+    --text-primary: #1c1917;
+    --text-secondary: #57534e;
+    --text-tertiary: #a8a29e;
+    --text-placeholder: #d6d3d1;
+    --accent: #7c3aed;
+    --accent-hover: #6d28d9;
+    --accent-light: #ede9fe;
+    --accent-text: #ffffff;
+    --danger: #dc2626;
+    --danger-hover: #b91c1c;
+    --danger-light: #fee2e2;
+    --success: #16a34a;
+    --warning: #ea580c;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+    --scrollbar-thumb: #d6d3d1;
+    --scrollbar-track: transparent;
+    --code-bg: #f5f5f4;
+  }
+  :root[data-theme="dark"] {
+    --bg-primary: #0c0a09;
+    --bg-secondary: #1c1917;
+    --bg-tertiary: #292524;
+    --bg-hover: #292524;
+    --bg-active: #44403c;
+    --border: #292524;
+    --border-strong: #44403c;
+    --text-primary: #fafaf9;
+    --text-secondary: #d6d3d1;
+    --text-tertiary: #78716c;
+    --text-placeholder: #44403c;
+    --accent: #a78bfa;
+    --accent-hover: #c4b5fd;
+    --accent-light: rgba(167,139,250,0.15);
+    --accent-text: #0c0a09;
+    --danger: #f87171;
+    --danger-hover: #fca5a5;
+    --danger-light: rgba(248,113,113,0.15);
+    --success: #4ade80;
+    --warning: #fb923c;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+    --scrollbar-thumb: #44403c;
+    --scrollbar-track: transparent;
+    --code-bg: #292524;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg-primary); color: var(--text-primary);
+    font-size: 14px; line-height: 1.6; overflow: hidden;
+    transition: background 0.2s, color 0.2s;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input, textarea { font-family: inherit; color: inherit; }
+  ::selection { background: var(--accent-light); color: var(--accent); }
+  .app { display: flex; height: 100vh; }
+  .sidebar { width: 280px; background: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: margin-left 0.25s; flex-shrink: 0; }
+  .sidebar.collapsed { margin-left: -280px; }
+  .sidebar-header { padding: 18px 16px 14px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); }
+  .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--accent), #ec4899); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
+  .logo-subtitle { font-size: 11px; color: var(--text-tertiary); font-weight: 400; margin-top: 2px; }
+  .search-wrap { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .search-box { position: relative; display: flex; align-items: center; }
+  .search-box svg { position: absolute; left: 10px; color: var(--text-tertiary); pointer-events: none; }
+  .search-input { width: 100%; padding: 8px 10px 8px 34px; background: var(--bg-tertiary); border: 1px solid transparent; border-radius: 8px; font-size: 13px; outline: none; transition: all 0.15s; }
+  .search-input:focus { background: var(--bg-secondary); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+  .new-note-btn { margin: 10px 16px 8px; padding: 9px 12px; background: var(--accent); color: var(--accent-text); border-radius: 8px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s, transform 0.05s; }
+  .new-note-btn:hover { background: var(--accent-hover); }
+  .new-note-btn:active { transform: scale(0.98); }
+  .notes-list { flex: 1; overflow-y: auto; padding: 4px 8px 12px; }
+  .notes-list::-webkit-scrollbar { width: 6px; }
+  .list-section-title { padding: 14px 10px 6px; font-size: 11px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; justify-content: space-between; }
+  .list-section-title .count { background: var(--bg-tertiary); color: var(--text-secondary); padding: 1px 7px; border-radius: 10px; font-size: 10px; letter-spacing: 0; }
+  .note-item { padding: 9px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 2px; border: 1px solid transparent; transition: background 0.1s; }
+  .note-item:hover { background: var(--bg-hover); }
+  .note-item.active { background: var(--accent-light); }
+  .note-item-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
+  .note-item.active .note-item-title { color: var(--accent); }
+  .pin-icon { color: var(--warning); font-size: 11px; flex-shrink: 0; }
+  .note-item-preview { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+  .note-item-meta { font-size: 11px; color: var(--text-tertiary); display: flex; justify-content: space-between; }
+  .note-tag { background: var(--bg-tertiary); color: var(--text-secondary); padding: 1px 6px; border-radius: 4px; font-size: 10px; }
+  .empty-list { text-align: center; color: var(--text-tertiary); padding: 40px 20px; font-size: 13px; }
+  .empty-list-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.4; }
+  .sidebar-toggle { position: fixed; top: 14px; left: 14px; z-index: 20; width: 34px; height: 34px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; display: none; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
+  .sidebar-toggle:hover { background: var(--bg-hover); }
+  @media (max-width: 768px) {
+    .sidebar { position: fixed; height: 100%; z-index: 15; box-shadow: var(--shadow-lg); }
+    .sidebar-toggle { display: flex; }
+  }
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-primary); }
+  .topbar { height: 56px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .breadcrumb { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; }
+  .breadcrumb span { color: var(--text-secondary); }
+  .topbar-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: background 0.1s, color 0.1s; }
+  .icon-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+  .icon-btn.danger:hover { background: var(--danger-light); color: var(--danger); }
+  .icon-btn.active { background: var(--accent-light); color: var(--accent); }
+  .divider-v { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
+  .editor-wrap { flex: 1; overflow-y: auto; padding: 32px 8% 60px; display: flex; flex-direction: column; }
+  @media (max-width: 768px) { .editor-wrap { padding: 24px 18px 60px; } }
+  .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--text-tertiary); padding: 40px 20px; }
+  .empty-state-icon { font-size: 64px; margin-bottom: 16px; background: linear-gradient(135deg, var(--accent), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.6; }
+  .empty-state-title { font-size: 18px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+  .empty-state-text { font-size: 14px; margin-bottom: 24px; max-width: 380px; }
+  .empty-state-btn { padding: 10px 20px; background: var(--accent); color: var(--accent-text); border-radius: 8px; font-weight: 600; font-size: 13px; transition: background 0.15s; }
+  .empty-state-btn:hover { background: var(--accent-hover); }
+  .editor-title { font-size: 32px; font-weight: 700; background: transparent; border: none; outline: none; width: 100%; color: var(--text-primary); padding: 4px 0 12px; letter-spacing: -0.02em; resize: none; font-family: inherit; line-height: 1.3; }
+  .editor-title::placeholder { color: var(--text-placeholder); font-weight: 700; }
+  .editor-meta-bar { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; }
+  .meta-item { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
+  .tag-input-wrap { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .tag-chip { background: var(--accent-light); color: var(--accent); padding: 2px 8px 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  .tag-remove { cursor: pointer; opacity: 0.6; font-size: 13px; line-height: 1; }
+  .tag-remove:hover { opacity: 1; }
+  .tag-input { border: none; outline: none; background: transparent; font-size: 12px; padding: 2px 4px; min-width: 80px; color: var(--text-primary); }
+  .tag-input::placeholder { color: var(--text-placeholder); }
+  .editor-body { flex: 1; min-height: 360px; width: 100%; border: none; outline: none; background: transparent; font-size: 15px; line-height: 1.75; color: var(--text-primary); resize: none; font-family: inherit; padding: 4px 0; }
+  .editor-body::placeholder { color: var(--text-placeholder); }
+  .preview-body { flex: 1; font-size: 15px; line-height: 1.8; color: var(--text-primary); }
+  .preview-body h1, .preview-body h2, .preview-body h3 { margin: 20px 0 12px; font-weight: 700; letter-spacing: -0.01em; }
+  .preview-body h1 { font-size: 24px; }
+  .preview-body h2 { font-size: 20px; }
+  .preview-body h3 { font-size: 16px; }
+  .preview-body p { margin: 10px 0; }
+  .preview-body ul, .preview-body ol { margin: 10px 0; padding-left: 24px; }
+  .preview-body li { margin: 4px 0; }
+  .preview-body code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px; color: var(--accent); }
+  .preview-body pre { background: var(--code-bg); padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 12px 0; }
+  .preview-body pre code { background: none; padding: 0; color: var(--text-primary); }
+  .preview-body blockquote { border-left: 3px solid var(--accent); padding: 4px 14px; margin: 12px 0; color: var(--text-secondary); background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .preview-body a { color: var(--accent); text-decoration: none; }
+  .preview-body a:hover { text-decoration: underline; }
+  .preview-body hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+  .preview-body table { border-collapse: collapse; margin: 12px 0; }
+  .preview-body th, .preview-body td { border: 1px solid var(--border); padding: 6px 12px; }
+  .statusbar { height: 28px; padding: 0 16px; border-top: 1px solid var(--border); background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); flex-shrink: 0; }
+  .statusbar-right { display: flex; gap: 14px; }
+  .toast-wrap { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .toast { background: var(--text-primary); color: var(--bg-primary); padding: 9px 16px; border-radius: 8px; font-size: 13px; box-shadow: var(--shadow-lg); animation: toastIn 0.25s, toastOut 0.25s 1.6s forwards; display: flex; align-items: center; gap: 8px; }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes toastOut { to { opacity: 0; transform: translateY(10px); } }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); animation: fadeIn 0.15s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal { background: var(--bg-secondary); border-radius: 12px; width: 90%; max-width: 420px; box-shadow: var(--shadow-lg); overflow: hidden; animation: modalIn 0.2s; }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .modal-header { padding: 18px 20px 12px; }
+  .modal-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .modal-body { padding: 0 20px 18px; color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+  .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: var(--bg-tertiary); }
+  .btn { padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: background 0.1s; }
+  .btn-secondary { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--bg-hover); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-danger:hover { background: var(--danger-hover); }
+  .btn-primary { background: var(--accent); color: var(--accent-text); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .dropdown-menu { position: fixed; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-lg); min-width: 200px; overflow: hidden; z-index: 30; animation: dropdownIn 0.12s; }
+  @keyframes dropdownIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .dropdown-item { padding: 9px 14px; font-size: 13px; color: var(--text-primary); cursor: pointer; transition: background 0.1s; }
+  .dropdown-item:hover { background: var(--bg-hover); }
+</style>
+</head>
+<body data-theme="light">
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        <div>
+          <div>星辰笔记</div>
+          <div class="logo-subtitle">Star Notes · 思考即星辰</div>
+        </div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="搜索笔记..." />
+      </div>
+    </div>
+    <button class="new-note-btn" id="newNoteBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      新建笔记
+    </button>
+    <div class="notes-list" id="notesList"></div>
+  </aside>
+  <button class="sidebar-toggle" id="sidebarToggle" title="切换侧边栏">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb">
+          <span>所有笔记</span>
+          <span id="crumbNote">· 未选择</span>
+        </div>
+      </div>
+      <div class="topbar-actions" id="topbarActions"></div>
+    </div>
+    <div class="editor-wrap" id="editorWrap"></div>
+    <div class="statusbar" id="statusbar" style="display:none">
+      <div class="statusbar-left" id="statusLeft">就绪</div>
+      <div class="statusbar-right" id="statusRight"></div>
+    </div>
+  </main>
+</div>
+<div class="toast-wrap" id="toastWrap"></div>
+<div id="modalHost"></div>
+<script>
+const STORAGE_KEY = "star-notes-v1";
+const state = {
+  notes: [], currentId: null, search: "",
+  isPreview: false,
+  theme: localStorage.getItem("star-notes-theme") || "light",
+  sidebarCollapsed: false,
+};
+const q = function(s, p) { return (p || document).querySelector(s); };
+const qa = function(s, p) { return Array.from((p || document).querySelectorAll(s)); };
+const uid = function() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); };
+const fmt = function(ts) {
+  var d = new Date(ts), now = new Date();
+  var diff = (now - d) / 1000;
+  if (diff < 60) return "刚刚";
+  if (diff < 3600) return Math.floor(diff / 60) + " 分钟前";
+  if (diff < 86400) return Math.floor(diff / 3600) + " 小时前";
+  if (diff < 604800) return Math.floor(diff / 86400) + " 天前";
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+};
+const fmtFull = function(ts) {
+  var d = new Date(ts);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") + " " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+};
+const esc = function(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function(m) { return ({"&":"&amp;","<":"&lt;",">":"&gt;",",":"&quot;","'":"&#39;"})[m]; }); };
+function loadNotes() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    state.notes = raw ? JSON.parse(raw) : [];
+  } catch (e) { state.notes = []; }
+  if (state.notes.length === 0) seedDemo();
+}
+function saveNotes() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notes)); }
+function seedDemo() {
+  var now = Date.now();
+  var demo1Lines = [
+    "# 你好,这里是星辰笔记",
+    "",
+    "这是你的第一个笔记。你可以:",
+    "",
+    "- 点击左上角的「新建笔记」开始记录",
+    "- 使用 # 标题 / ## 子标题 来组织内容",
+    "- 用 **粗体** 和 *斜体* 让文字更有表现力",
+    "- 用 - 列出待办,用 1. 列出步骤",
+    "- 给笔记添加标签,方便分类",
+    "",
+    "> 思考即星辰,记录即轨迹。",
+    "",
+    "---",
+    "",
+    "## Markdown 速查",
+    "",
+    "### 标题层级",
+    "### **粗体** 和 *斜体*",
+    "### 行内代码 和 代码块",
+    "### [链接](https://example.com)",
+    "",
+    "试试切换右上角的「预览」按钮,看看渲染效果。"
+  ];
+  var demo2Lines = [
+    "## 想读的书", "",
+    "1. 《深度工作》", "2. 《思考,快与慢》", "3. 《原子习惯》", "4. 《禅与摩托车维修艺术》", "",
+    "## 读书笔记模板", "",
+    "- 这本书讲了什么?", "- 哪一段对我最有启发?", "- 我能在生活中用上哪一点?"
+  ];
+  var demo3Lines = [
+    "随时记录下闪过的灵感... 比如:", "",
+    "- 用游戏化让学习变得有趣", "- 用 AI 总结长会议", "- 用 Markdown 写文档比 Word 快得多"
+  ];
+  state.notes = [
+    { id: uid(), title: "欢迎使用星辰笔记 ✦", content: demo1Lines.join("\n"), tags: ["入门","指南"], pinned: true, createdAt: now, updatedAt: now },
+    { id: uid(), title: "本周阅读清单", content: demo2Lines.join("\n"), tags: ["阅读","个人"], pinned: false, createdAt: now - 86400000, updatedAt: now - 3600000 },
+    { id: uid(), title: "项目灵感片段", content: demo3Lines.join("\n"), tags: ["灵感"], pinned: false, createdAt: now - 172800000, updatedAt: now - 86400000 }
+  ];
+  saveNotes();
+}
+function sunSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>'; }
+function moonSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'; }
+function previewSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'; }
+function editSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'; }
+function pinSvg(f) { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="' + (f ? "currentColor" : "none") + '" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8.5 22 9.3 17 14 18.5 21 12 17.8 5.5 21 7 14 2 9.3 9 8.5z"/></svg>'; }
+function exportSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'; }
+function trashSvg() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'; }
+function applyTheme() {
+  document.body.setAttribute("data-theme", state.theme);
+  localStorage.setItem("star-notes-theme", state.theme);
+  var btn = document.getElementById("themeBtn");
+  if (btn) btn.innerHTML = state.theme === "light" ? sunSvg() : moonSvg();
+}
+function toast(msg, icon) {
+  icon = icon || "✓";
+  var el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = "<span>" + icon + "</span><span>" + esc(msg) + "</span>";
+  document.getElementById("toastWrap").appendChild(el);
+  setTimeout(function() { el.remove(); }, 2000);
+}
+function confirmModal(title, body, onConfirm, confirmText, danger) {
+  confirmText = confirmText || "确认";
+  danger = danger !== false;
+  var host = document.getElementById("modalHost");
+  host.innerHTML = '<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><div class="modal-header"><div class="modal-title">' + esc(title) + '</div></div><div class="modal-body">' + esc(body) + '</div></div><div class="modal-footer"><button class="btn btn-secondary" data-act="cancel">取消</button><button class="btn ' + (danger ? "btn-danger" : "btn-primary") + '" data-act="ok">' + esc(confirmText) + '</button></div></div></div>';
+  var close = function() { host.innerHTML = ""; };
+  host.querySelector("[data-act=cancel]").onclick = close;
+  host.querySelector("[data-act=ok]").onclick = function() { close(); onConfirm(); };
+  host.querySelector("#modalBackdrop").onclick = function(e) { if (e.target.id === "modalBackdrop") close(); };
+}
+// 反引号字符
+var BT = String.fromCharCode(96);
+function renderMarkdown(text) {
+  var html = esc(text);
+  // 代码块: 三个反引号包围
+  var codeBlockRe = new RegExp(BT + BT + BT + "([\\w]*)\\n([\\s\\S]*?)" + BT + BT + BT, "g");
+  html = html.replace(codeBlockRe, function(m, lang, code) { return "<pre><code>" + code + "</code></pre>"; });
+  // 行内代码
+  var inlineCodeRe = new RegExp(BT + "([^" + BT + "\\n]+)" + BT, "g");
+  html = html.replace(inlineCodeRe, "<code>$1</code>");
+  // 标题
+  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+  html = html.replace(/^# (.+)$/gm, "<h1>$1</h1>");
+  // 引用
+  html = html.replace(/^> (.+)$/gm, "<blockquote>$1</blockquote>");
+  // 分隔线
+  html = html.replace(/^---$/gm, "<hr>");
+  // 粗体/斜体
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  // 链接
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "<a href=\"$2\" target=\"_blank\" rel=\"noopener\">$1</a>");
+  // 无序列表
+  html = html.replace(/(^- .+(\n- .+)*)/gm, function(block) {
+    var items = block.split("\n").map(function(l) { return l.replace(/^- /, ""); }).map(function(l) { return "<li>" + l + "</li>"; }).join("");
+    return "<ul>" + items + "</ul>";
+  });
+  // 有序列表
+  html = html.replace(/(^\d+\. .+(\n\d+\. .+)*)/gm, function(block) {
+    var items = block.split("\n").map(function(l) { return l.replace(/^\d+\. /, ""); }).map(function(l) { return "<li>" + l + "</li>"; }).join("");
+    return "<ol>" + items + "</ol>";
+  });
+  // 段落
+  html = html.split(/\n\n+/).map(function(p) {
+    if (/^<(h\d|ul|ol|li|pre|blockquote|hr)/.test(p.trim())) return p;
+    return p.split("\n").map(function(l) { return l.trim() ? "<p>" + l + "</p>" : ""; }).join("");
+  }).join("\n");
+  return html;
+}
+function renderList() {
+  var host = document.getElementById("notesList");
+  var kw = state.search.toLowerCase().trim();
+  var list = state.notes.slice();
+  if (kw) {
+    list = list.filter(function(n) {
+      return (n.title || "").toLowerCase().includes(kw) ||
+        (n.content || "").toLowerCase().includes(kw) ||
+        (n.tags || []).some(function(t) { return t.toLowerCase().includes(kw); });
+    });
+  }
+  var pinned = list.filter(function(n) { return n.pinned; }).sort(function(a, b) { return b.updatedAt - a.updatedAt; });
+  var others = list.filter(function(n) { return !n.pinned; }).sort(function(a, b) { return b.updatedAt - a.updatedAt; });
+  if (list.length === 0) {
+    host.innerHTML = '<div class="empty-list"><div class="empty-list-icon">📝</div><div>' + (kw ? "没有匹配的笔记" : "还没有笔记") + '</div><div style="margin-top:6px;font-size:11px;opacity:0.7">' + (kw ? "试试别的关键词" : "点击「新建笔记」开始记录") + '</div></div>';
+    return;
+  }
+  var html = "";
+  if (pinned.length) {
+    html += '<div class="list-section-title">📌 已置顶 <span class="count">' + pinned.length + '</span></div>';
+    html += pinned.map(renderItem).join("");
+  }
+  if (others.length) {
+    html += '<div class="list-section-title">📄 所有笔记 <span class="count">' + others.length + '</span></div>';
+    html += others.map(renderItem).join("");
+  }
+  host.innerHTML = html;
+  qa(".note-item", host).forEach(function(el) { el.onclick = function() { selectNote(el.dataset.id); }; });
+}
+function renderItem(n) {
+  var preview = (n.content || "").replace(/[#*`>\-\n]+/g, " ").trim().slice(0, 40);
+  var active = n.id === state.currentId ? "active" : "";
+  var pinSpan = n.pinned ? '<span class="pin-icon">📌</span>' : "";
+  var previewDiv = preview ? '<div class="note-item-preview">' + esc(preview) + '</div>' : "";
+  var tagSpan = (n.tags && n.tags[0]) ? '<span class="note-tag">' + esc(n.tags[0]) + '</span>' : "";
+  return '<div class="note-item ' + active + '" data-id="' + n.id + '"><div class="note-item-title">' + pinSpan + esc(n.title || "无标题") + '</div>' + previewDiv + '<div class="note-item-meta"><span>' + fmt(n.updatedAt) + '</span>' + tagSpan + '</div></div>';
+}
+function renderEditor() {
+  var wrap = document.getElementById("editorWrap");
+  var actions = document.getElementById("topbarActions");
+  var statusbar = document.getElementById("statusbar");
+  var note = state.notes.find(function(n) { return n.id === state.currentId; });
+  if (!note) {
+    actions.innerHTML = '<button class="icon-btn" id="themeBtn" title="切换主题">' + (state.theme === "light" ? sunSvg() : moonSvg()) + '</button>';
+    document.getElementById("themeBtn").onclick = function() { state.theme = state.theme === "light" ? "dark" : "light"; applyTheme(); };
+    document.getElementById("crumbNote").textContent = "· 未选择";
+    statusbar.style.display = "none";
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✦</div><div class="empty-state-title">' + (state.notes.length ? "选择一篇笔记开始阅读" : "欢迎使用星辰笔记") + '</div><div class="empty-state-text">' + (state.notes.length ? "从左侧列表选择一篇,或点击下方按钮新建你的第一篇笔记。" : "一个轻量、本地化、支持 Markdown 的私人思考空间。") + '</div><button class="empty-state-btn" id="emptyNewBtn">' + (state.notes.length ? "新建笔记" : "开始记录") + '</button></div>';
+    document.getElementById("emptyNewBtn").onclick = createNote;
+    return;
+  }
+  actions.innerHTML =
+    '<button class="icon-btn ' + (state.isPreview ? "active" : "") + '" id="previewBtn" title="' + (state.isPreview ? "编辑" : "预览") + '">' + (state.isPreview ? editSvg() : previewSvg()) + '</button>' +
+    '<button class="icon-btn ' + (note.pinned ? "active" : "") + '" id="pinBtn" title="' + (note.pinned ? "取消置顶" : "置顶") + '">' + pinSvg(note.pinned) + '</button>' +
+    '<div class="divider-v"></div>' +
+    '<button class="icon-btn" id="exportBtn" title="导出">' + exportSvg() + '</button>' +
+    '<button class="icon-btn danger" id="deleteBtn" title="删除">' + trashSvg() + '</button>' +
+    '<div class="divider-v"></div>' +
+    '<button class="icon-btn" id="themeBtn" title="切换主题">' + (state.theme === "light" ? sunSvg() : moonSvg()) + '</button>';
+  document.getElementById("previewBtn").onclick = function() { state.isPreview = !state.isPreview; renderEditor(); };
+  document.getElementById("pinBtn").onclick = function() { note.pinned = !note.pinned; saveNotes(); renderList(); renderEditor(); toast(note.pinned ? "已置顶" : "已取消置顶", "📌"); };
+  document.getElementById("deleteBtn").onclick = function() { deleteNote(note); };
+  document.getElementById("themeBtn").onclick = function() { state.theme = state.theme === "light" ? "dark" : "light"; applyTheme(); };
+  document.getElementById("exportBtn").onclick = function(e) { showExportMenu(e.currentTarget, note); };
+  document.getElementById("crumbNote").textContent = "· " + (note.title || "无标题");
+  var tagsHtml = (note.tags || []).map(function(t) { return '<span class="tag-chip">' + esc(t) + '<span class="tag-remove" data-tag="' + esc(t) + '">×</span></span>'; }).join("");
+  var tagPh = (note.tags || []).length ? "添加标签..." : "+ 标签";
+  var body;
+  if (state.isPreview) {
+    body = '<div class="preview-body" id="previewBody">' + renderMarkdown(note.content || "") + '</div>';
+  } else {
+    body = '<textarea class="editor-body" id="bodyInput" placeholder="开始记录你的想法...">' + esc(note.content || "") + '</textarea>';
+  }
+  wrap.innerHTML =
+    '<input class="editor-title" id="titleInput" placeholder="无标题" value="' + esc(note.title || "") + '" />' +
+    '<div class="editor-meta-bar">' +
+      '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>创建于 ' + fmtFull(note.createdAt) + '</span>' +
+      '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>修改于 ' + fmtFull(note.updatedAt) + '</span>' +
+      '<div class="tag-input-wrap" id="tagWrap">' + tagsHtml + '<input class="tag-input" id="tagInput" placeholder="' + tagPh + '" /></div>' +
+    '</div>' +
+    body;
+  var titleInput = document.getElementById("titleInput");
+  var bodyInput = document.getElementById("bodyInput");
+  var tagInput = document.getElementById("tagInput");
+  var tagWrap = document.getElementById("tagWrap");
+  var saveTimer;
+  var scheduleSave = function() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() { saveNotes(); renderList(); updateStatus(note); }, 350);
+  };
+  titleInput.oninput = function() {
+    note.title = titleInput.value;
+    note.updatedAt = Date.now();
+    scheduleSave();
+    document.getElementById("crumbNote").textContent = "· " + (note.title || "无标题");
+  };
+  if (bodyInput) {
+    bodyInput.style.height = "auto";
+    bodyInput.style.height = Math.max(bodyInput.scrollHeight, 360) + "px";
+    bodyInput.oninput = function() {
+      note.content = bodyInput.value;
+      note.updatedAt = Date.now();
+      bodyInput.style.height = "auto";
+      bodyInput.style.height = Math.max(bodyInput.scrollHeight, 360) + "px";
+      scheduleSave();
+    };
+  }
+  if (tagInput) {
+    tagInput.onkeydown = function(e) {
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+        var v = tagInput.value.trim().replace(/^#/, "");
+        if (!v) return;
+        note.tags = note.tags || [];
+        if (note.tags.indexOf(v) === -1) {
+          note.tags.push(v);
+          note.updatedAt = Date.now();
+          saveNotes();
+          renderEditor();
+          renderList();
+          setTimeout(function() { var t = document.getElementById("tagInput"); if (t) t.focus(); }, 0);
+        }
+        tagInput.value = "";
+      } else if (e.key === "Backspace" && !tagInput.value && note.tags && note.tags.length) {
+        note.tags.pop();
+        note.updatedAt = Date.now();
+        saveNotes();
+        renderEditor();
+        renderList();
+        setTimeout(function() { var t = document.getElementById("tagInput"); if (t) t.focus(); }, 0);
+      }
+    };
+  }
+  qa(".tag-remove", tagWrap).forEach(function(el) {
+    el.onclick = function() {
+      var t = el.dataset.tag;
+      note.tags = (note.tags || []).filter(function(x) { return x !== t; });
+      note.updatedAt = Date.now();
+      saveNotes();
+      renderEditor();
+      renderList();
+    };
+  });
+  statusbar.style.display = "flex";
+  updateStatus(note);
+  if (!note.title) { setTimeout(function() { titleInput.focus(); }, 50); }
+}
+function updateStatus(note) {
+  if (!note) return;
+  var content = note.content || "";
+  var chars = content.length;
+  var words = content.trim() ? content.trim().split(/\s+/).length : 0;
+  var lines = content.split("\n").length;
+  document.getElementById("statusLeft").textContent = "已自动保存";
+  document.getElementById("statusRight").innerHTML = "<span>" + lines + " 行</span><span>" + words + " 词</span><span>" + chars + " 字符</span><span>UTF-8</span>";
+}
+function createNote() {
+  var now = Date.now();
+  var n = { id: uid(), title: "", content: "", tags: [], pinned: false, createdAt: now, updatedAt: now };
+  state.notes.unshift(n);
+  state.currentId = n.id;
+  saveNotes();
+  renderList();
+  renderEditor();
+  toast("已新建笔记", "📝");
+}
+function selectNote(id) {
+  if (id === state.currentId) return;
+  state.currentId = id;
+  renderList();
+  renderEditor();
+}
+function deleteNote(note) {
+  confirmModal("删除笔记", "确定要删除「" + (note.title || "无标题") + "」吗?此操作不可撤销。", function() {
+    state.notes = state.notes.filter(function(n) { return n.id !== note.id; });
+    if (state.currentId === note.id) state.currentId = state.notes[0] ? state.notes[0].id : null;
+    saveNotes();
+    renderList();
+    renderEditor();
+    toast("已删除", "🗑");
+  });
+}
+function showExportMenu(btn, note) {
+  closeDropdown();
+  var menu = document.createElement("div");
+  menu.className = "dropdown-menu";
+  menu.id = "activeDropdown";
+  menu.innerHTML =
+    '<div class="dropdown-item" data-fmt="md">📄 导出为 Markdown</div>' +
+    '<div class="dropdown-item" data-fmt="txt">📃 导出为纯文本</div>' +
+    '<div class="dropdown-item" data-fmt="json">💾 导出所有数据 (JSON)</div>' +
+    '<div class="dropdown-item" data-fmt="copy">📋 复制内容</div>';
+  document.body.appendChild(menu);
+  var r = btn.getBoundingClientRect();
+  menu.style.top = (r.bottom + 6) + "px";
+  menu.style.right = (window.innerWidth - r.right) + "px";
+  qa(".dropdown-item", menu).forEach(function(it) {
+    it.onclick = function() {
+      var f = it.dataset.fmt;
+      var fname = (note.title || "未命名").replace(/[\\\/:*?"<>|]/g, "_");
+      if (f === "md" || f === "txt") {
+        var body = f === "txt" ? note.content : "# " + (note.title || "未标题") + "\n\n" + (note.content || "");
+        download(fname + "." + f, body, f === "md" ? "text/markdown" : "text/plain");
+        toast("已导出 " + f.toUpperCase(), "📄");
+      } else if (f === "json") {
+        download("star-notes-backup.json", JSON.stringify(state.notes, null, 2), "application/json");
+        toast("已导出全部数据", "💾");
+      } else if (f === "copy") {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(note.content || "").then(function() { toast("已复制到剪贴板", "📋"); });
+        } else {
+          toast("剪贴板不可用", "⚠");
+        }
+      }
+      closeDropdown();
+    };
+  });
+  setTimeout(function() { document.addEventListener("click", closeDropdown, { once: true }); }, 0);
+}
+function closeDropdown() { var m = document.getElementById("activeDropdown"); if (m) m.remove(); }
+function download(name, content, mime) {
+  var blob = new Blob([content], { type: mime + ";charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = name; a.click();
+  setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+}
+function toggleSidebar() {
+  state.sidebarCollapsed = !state.sidebarCollapsed;
+  document.getElementById("app").classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
+  document.getElementById("sidebar").classList.toggle("collapsed", state.sidebarCollapsed);
+}
+function bindEvents() {
+  document.getElementById("newNoteBtn").onclick = createNote;
+  document.getElementById("sidebarToggle").onclick = toggleSidebar;
+  document.getElementById("searchInput").oninput = function(e) { state.search = e.target.value; renderList(); };
+  document.addEventListener("keydown", function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === "n") { e.preventDefault(); createNote(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === "p" && state.currentId) { e.preventDefault(); state.isPreview = !state.isPreview; renderEditor(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === "d" && state.currentId) { e.preventDefault(); deleteNote(state.notes.find(function(n) { return n.id === state.currentId; })); }
+    if ((e.ctrlKey || e.metaKey) && e.key === "/") { e.preventDefault(); document.getElementById("searchInput").focus(); }
+    if (e.key === "Escape" && document.activeElement === document.getElementById("searchInput")) {
+      var si = document.getElementById("searchInput");
+      si.value = ""; state.search = ""; renderList(); si.blur();
+    }
+  });
+}
+function init() {
+  loadNotes();
+  applyTheme();
+  bindEvents();
+  if (state.notes.length) state.currentId = state.notes[0].id;
+  renderList();
+  renderEditor();
+}
+init();
+</script>
+</body>
+</html>
