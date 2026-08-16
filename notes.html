@@ -6,20 +6,20 @@
 <title>✦ 张帆笔记 - 你的私人思考空间</title>
 <style>
   :root[data-theme="light"] {
-    --bg-primary: #fafaf9;
+    --bg-primary: #f8fafc;
     --bg-secondary: #ffffff;
-    --bg-tertiary: #f5f5f4;
-    --bg-hover: #efefee;
-    --bg-active: #e7e5e4;
-    --border: #e7e5e4;
-    --border-strong: #d6d3d1;
-    --text-primary: #1c1917;
-    --text-secondary: #57534e;
-    --text-tertiary: #a8a29e;
-    --text-placeholder: #d6d3d1;
-    --accent: #7c3aed;
-    --accent-hover: #6d28d9;
-    --accent-light: #ede9fe;
+    --bg-tertiary: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    --bg-active: #e2e8f0;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+    --text-placeholder: #cbd5e1;
+    --accent: #0891b2;
+    --accent-hover: #0e7490;
+    --accent-light: #cffafe;
     --accent-text: #ffffff;
     --danger: #dc2626;
     --danger-hover: #b91c1c;
@@ -29,26 +29,28 @@
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
     --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
-    --scrollbar-thumb: #d6d3d1;
+    --scrollbar-thumb: #cbd5e1;
     --scrollbar-track: transparent;
-    --code-bg: #f5f5f4;
+    --code-bg: #f1f5f9;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    --accent-glow: rgba(8, 145, 178, 0.25);
   }
   :root[data-theme="dark"] {
-    --bg-primary: #0c0a09;
-    --bg-secondary: #1c1917;
-    --bg-tertiary: #292524;
-    --bg-hover: #292524;
-    --bg-active: #44403c;
-    --border: #292524;
-    --border-strong: #44403c;
-    --text-primary: #fafaf9;
-    --text-secondary: #d6d3d1;
-    --text-tertiary: #78716c;
-    --text-placeholder: #44403c;
-    --accent: #a78bfa;
-    --accent-hover: #c4b5fd;
-    --accent-light: rgba(167,139,250,0.15);
-    --accent-text: #0c0a09;
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1525;
+    --bg-tertiary: #1a2235;
+    --bg-hover: #1a2235;
+    --bg-active: #283549;
+    --border: #1a2235;
+    --border-strong: #283549;
+    --text-primary: #e0e7ff;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+    --text-placeholder: #283549;
+    --accent: #22d3ee;
+    --accent-hover: #67e8f9;
+    --accent-light: rgba(6, 182, 212, 0.15);
+    --accent-text: #0a0e1a;
     --danger: #f87171;
     --danger-hover: #fca5a5;
     --danger-light: rgba(248,113,113,0.15);
@@ -57,17 +59,36 @@
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
     --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
-    --scrollbar-thumb: #44403c;
+    --scrollbar-thumb: #283549;
     --scrollbar-track: transparent;
-    --code-bg: #292524;
+    --code-bg: #1a2235;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    --accent-glow: rgba(6, 182, 212, 0.5);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: var(--bg-primary); color: var(--text-primary);
+    background-color: var(--bg-primary);
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+    color: var(--text-primary);
     font-size: 14px; line-height: 1.6; overflow: hidden;
-    transition: background 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 10%, var(--accent-glow) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, var(--accent-glow) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
   }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
@@ -76,19 +97,25 @@
   button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
   input, textarea { font-family: inherit; color: inherit; }
   ::selection { background: var(--accent-light); color: var(--accent); }
-  .app { display: flex; height: 100vh; }
+  .app { display: flex; height: 100vh; position: relative; z-index: 1; }
   .sidebar { width: 280px; background: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: margin-left 0.25s; flex-shrink: 0; }
   .sidebar.collapsed { margin-left: -280px; }
   .sidebar-header { padding: 18px 16px 14px; border-bottom: 1px solid var(--border); }
   .logo { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); }
-  .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--accent), #ec4899); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
+  .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), #0891b2 50%, #0e7490); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-family: var(--mono); font-weight: 700; font-size: 14px; box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px rgba(255,255,255,0.1); border: 1px solid var(--accent); letter-spacing: -1px; }
+  .logo-icon .cursor { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .logo-title { font-family: var(--mono); font-weight: 700; letter-spacing: 0.02em; }
+  .logo-subtitle .path { color: var(--accent); font-family: var(--mono); }
   .logo-subtitle { font-size: 11px; color: var(--text-tertiary); font-weight: 400; margin-top: 2px; }
   .search-wrap { padding: 12px 16px; border-bottom: 1px solid var(--border); }
   .search-box { position: relative; display: flex; align-items: center; }
   .search-box svg { position: absolute; left: 10px; color: var(--text-tertiary); pointer-events: none; }
   .search-input { width: 100%; padding: 8px 10px 8px 34px; background: var(--bg-tertiary); border: 1px solid transparent; border-radius: 8px; font-size: 13px; outline: none; transition: all 0.15s; }
-  .search-input:focus { background: var(--bg-secondary); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
-  .new-note-btn { margin: 10px 16px 8px; padding: 9px 12px; background: var(--accent); color: var(--accent-text); border-radius: 8px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s, transform 0.05s; }
+  .search-input:focus { background: var(--bg-secondary); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light), 0 0 12px var(--accent-glow); }
+  .new-note-btn { margin: 10px 16px 8px; padding: 9px 12px; background: var(--accent); color: var(--accent-text); border-radius: 8px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s, transform 0.05s, box-shadow 0.15s; box-shadow: 0 0 12px var(--accent-glow); position: relative; overflow: hidden; }
+  .new-note-btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transform: translateX(-100%); transition: transform 0.5s; }
+  .new-note-btn:hover::before { transform: translateX(100%); }
   .new-note-btn:hover { background: var(--accent-hover); }
   .new-note-btn:active { transform: scale(0.98); }
   .notes-list { flex: 1; overflow-y: auto; padding: 4px 8px 12px; }
@@ -97,7 +124,7 @@
   .list-section-title .count { background: var(--bg-tertiary); color: var(--text-secondary); padding: 1px 7px; border-radius: 10px; font-size: 10px; letter-spacing: 0; }
   .note-item { padding: 9px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 2px; border: 1px solid transparent; transition: background 0.1s; }
   .note-item:hover { background: var(--bg-hover); }
-  .note-item.active { background: var(--accent-light); }
+  .note-item.active { background: var(--accent-light); border-left: 2px solid var(--accent); padding-left: 8px; }
   .note-item-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
   .note-item.active .note-item-title { color: var(--accent); }
   .pin-icon { color: var(--warning); font-size: 11px; flex-shrink: 0; }
@@ -113,7 +140,8 @@
     .sidebar-toggle { display: flex; }
   }
   .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-primary); }
-  .topbar { height: 56px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .topbar { height: 56px; padding: 0 24px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, var(--bg-secondary), color-mix(in srgb, var(--bg-secondary) 92%, var(--accent) 8%)); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; position: relative; }
+  .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.7; }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .breadcrumb { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; }
   .breadcrumb span { color: var(--text-secondary); }
@@ -131,7 +159,7 @@
   .empty-state-text { font-size: 14px; margin-bottom: 24px; max-width: 380px; }
   .empty-state-btn { padding: 10px 20px; background: var(--accent); color: var(--accent-text); border-radius: 8px; font-weight: 600; font-size: 13px; transition: background 0.15s; }
   .empty-state-btn:hover { background: var(--accent-hover); }
-  .editor-title { font-size: 32px; font-weight: 700; background: transparent; border: none; outline: none; width: 100%; color: var(--text-primary); padding: 4px 0 12px; letter-spacing: -0.02em; resize: none; font-family: inherit; line-height: 1.3; }
+  .editor-title { font-size: 30px; font-weight: 700; background: transparent; border: none; outline: none; width: 100%; color: var(--text-primary); padding: 4px 0 12px; letter-spacing: -0.01em; resize: none; font-family: var(--mono); line-height: 1.3; }
   .editor-title::placeholder { color: var(--text-placeholder); font-weight: 700; }
   .editor-meta-bar { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; }
   .meta-item { font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
@@ -185,6 +213,92 @@
   @keyframes dropdownIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
   .dropdown-item { padding: 9px 14px; font-size: 13px; color: var(--text-primary); cursor: pointer; transition: background 0.1s; }
   .dropdown-item:hover { background: var(--bg-hover); }
+  /* ============ HUD 状态条 ============ */
+  .hud-bar {
+    height: 24px;
+    padding: 0 16px;
+    background: linear-gradient(90deg, var(--bg-tertiary), color-mix(in srgb, var(--bg-tertiary) 70%, var(--accent) 30%), var(--bg-tertiary));
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hud-bar::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -50%;
+    width: 200%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: hudScan 4s linear infinite;
+  }
+  @keyframes hudScan { 0% { transform: translateX(-50%); } 100% { transform: translateX(50%); } }
+  .hud-item { display: flex; align-items: center; gap: 5px; }
+  .hud-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); animation: pulse 2s ease-in-out infinite; }
+  .hud-item .dot.amber { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+  .hud-item .dot.cyan { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hud-spacer { flex: 1; }
+  .hud-clock { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ============ 扫描线动画(背景) ============ */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+    box-shadow: 0 0 12px var(--accent-glow);
+    z-index: 9999;
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+    opacity: 0.5;
+  }
+  @keyframes scanline { 0% { top: 0; } 100% { top: 100vh; } }
+
+  /* ============ HUD 四角装饰 ============ */
+  .editor-wrap { position: relative; }
+  .editor-wrap::before, .editor-wrap::after {
+    content: "";
+    position: absolute;
+    width: 20px; height: 20px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .editor-wrap::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+  .editor-wrap::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+  /* ============ Logo 标题渐变 + 发光 ============ */
+  .logo-title {
+    font-family: var(--mono);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(90deg, var(--accent), #cffafe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  /* ============ 编辑器标题加终端提示符 ============ */
+  .editor-title-wrap { display: flex; align-items: center; gap: 8px; }
+  .editor-prompt { color: var(--accent); font-family: var(--mono); font-size: 24px; font-weight: 700; animation: pulse 1.5s ease-in-out infinite; }
+
+  /* ============ 列表选中态加强(发光边框) ============ */
+  .note-item.active {
+    background: var(--accent-light);
+    border-left: 2px solid var(--accent);
+    padding-left: 8px;
+    box-shadow: inset 0 0 12px var(--accent-glow);
+  }
+
+  /* ============ statusbar 字体升级 ============ */
+  .statusbar { font-family: var(--mono); letter-spacing: 0.02em; }
+
 </style>
 </head>
 <body>
@@ -192,10 +306,10 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <div class="logo-icon">✦</div>
+        <div class="logo-icon"><span class="cursor">&gt;_</span></div>
         <div>
-          <div>张帆笔记</div>
-          <div class="logo-subtitle">Star Notes · 思考即星辰</div>
+          <div class="logo-title">ZF·NOTES</div>
+          <div class="logo-subtitle"><span class="path">~/</span>张帆笔记</div>
         </div>
       </div>
     </div>
@@ -215,6 +329,14 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
   <main class="main">
+    <div class="hud-bar" id="hudBar">
+      <div class="hud-item"><span class="dot"></span><span>SYS.ONLINE</span></div>
+      <div class="hud-item"><span class="dot cyan"></span><span id="hudNotes">0 NOTES</span></div>
+      <div class="hud-item"><span class="dot amber"></span><span id="hudMem">MEM 12MB</span></div>
+      <div class="hud-spacer"></div>
+      <div class="hud-item"><span>UPTIME</span><span id="hudUptime">00:00:00</span></div>
+      <div class="hud-item"><span class="hud-clock" id="hudClock">--:--:--</span></div>
+    </div>
     <div class="topbar">
       <div class="topbar-left">
         <div class="breadcrumb">
@@ -265,7 +387,7 @@ function loadNotes() {
   } catch (e) { state.notes = []; }
   if (state.notes.length === 0) seedDemo();
 }
-function saveNotes() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notes)); }
+function saveNotes() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notes)); updateHud(); }
 function seedDemo() {
   var now = Date.now();
   var demo1Lines = [
@@ -454,13 +576,13 @@ function renderEditor() {
     body = '<textarea class="editor-body" id="bodyInput" placeholder="开始记录你的想法...">' + esc(note.content || "") + '</textarea>';
   }
   wrap.innerHTML =
-    '<input class="editor-title" id="titleInput" placeholder="无标题" value="' + esc(note.title || "") + '" />' +
+    '<div class="editor-title-wrap"><span class="editor-prompt">&gt;</span><input class="editor-title" id="titleInput" placeholder="无标题" value="' + esc(note.title || "") + '" />' +
     '<div class="editor-meta-bar">' +
       '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>创建于 ' + fmtFull(note.createdAt) + '</span>' +
       '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>修改于 ' + fmtFull(note.updatedAt) + '</span>' +
       '<div class="tag-input-wrap" id="tagWrap">' + tagsHtml + '<input class="tag-input" id="tagInput" placeholder="' + tagPh + '" /></div>' +
     '</div>' +
-    body;
+    body + '</div>';
   var titleInput = document.getElementById("titleInput");
   var bodyInput = document.getElementById("bodyInput");
   var tagInput = document.getElementById("tagInput");
@@ -627,6 +749,33 @@ function bindEvents() {
     }
   });
 }
+var bootTime = Date.now();
+function updateHud() {
+  var clock = document.getElementById("hudClock");
+  if (clock) {
+    var d = new Date();
+    var h = String(d.getHours()).padStart(2, "0");
+    var m = String(d.getMinutes()).padStart(2, "0");
+    var s = String(d.getSeconds()).padStart(2, "0");
+    clock.textContent = h + ":" + m + ":" + s;
+  }
+  var upEl = document.getElementById("hudUptime");
+  if (upEl) {
+    var sec = Math.floor((Date.now() - bootTime) / 1000);
+    var uh = String(Math.floor(sec / 3600)).padStart(2, "0");
+    var um = String(Math.floor(sec / 60) % 60).padStart(2, "0");
+    var us = String(sec % 60).padStart(2, "0");
+    upEl.textContent = uh + ":" + um + ":" + us;
+  }
+  var memEl = document.getElementById("hudMem");
+  if (memEl) {
+    var bytes = JSON.stringify(state.notes).length;
+    var kb = (bytes / 1024).toFixed(1);
+    memEl.textContent = "MEM " + kb + "KB";
+  }
+  var notesEl = document.getElementById("hudNotes");
+  if (notesEl) notesEl.textContent = state.notes.length + " NOTES";
+}
 function init() {
   loadNotes();
   applyTheme();
@@ -634,6 +783,8 @@ function init() {
   if (state.notes.length) state.currentId = state.notes[0].id;
   renderList();
   renderEditor();
+  updateHud();
+  setInterval(updateHud, 1000);
 }
 init();
 </script>
