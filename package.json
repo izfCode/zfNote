@@ -5,7 +5,8 @@
   "description": "张帆笔记 - 桌面客户端。一个轻量、本地化、支持 Markdown 的私人思考空间。",
   "main": "dist-electron/main.js",
   "author": {
-    "name": "ZhangFan"
+    "name": "ZhangFan",
+    "email": "379610332@qq.com"
   },
   "license": "MIT",
   "private": true,
@@ -78,7 +79,8 @@
         "Categories": "Office;TextEditor;",
         "Terminal": "false",
         "StartupNotify": "true"
-      }
+      },
+      "maintainer": "ZhangFan <379610332@qq.com>"
     },
     "asar": true
   }
