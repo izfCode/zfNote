@@ -8,7 +8,7 @@
 
 <p align="left">
   <a href="https://github.com/izfCode/zfNote/releases/latest"><img alt="release" src="https://img.shields.io/github/v/release/izfCode/zfNote?style=flat-square&logo=github&logoColor=white&color=2563eb"></a>
-  <a href="https://github.com/izfCode/zfNote/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/github/license/izfCode/zfNote?style=flat-square&color=2563eb"></a>
+  <a href="https://github.com/izfCode/zfNote/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/izfCode/zfNote?style=flat-square&color=2563eb"></a>
   <a href="https://github.com/izfCode/zfNote"><img alt="stars" src="https://img.shields.io/github/stars/izfCode/zfNote?style=flat-square&logo=github&color=2563eb"></a>
   <a href="https://github.com/izfCode/zfNote/actions"><img alt="build" src="https://img.shields.io/github/actions/workflow/status/izfCode/zfNote/release.yml?style=flat-square&logo=github-actions&logoColor=white&label=build"></a>
   <a href="https://github.com/izfCode/zfNote/releases"><img alt="downloads" src="https://img.shields.io/github/downloads/izfCode/zfNote/total?style=flat-square&logo=github&color=2563eb"></a>
