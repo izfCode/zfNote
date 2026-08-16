@@ -56,10 +56,29 @@
       "target": "nsis"
     },
     "mac": {
-      "target": "dmg"
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.productivity"
     },
     "linux": {
-      "target": "AppImage"
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office",
+      "desktop": {
+        "Name": "ZF·Notes",
+        "Comment": "A lightweight, local, Markdown-friendly note-taking desktop app.",
+        "Categories": "Office;TextEditor;",
+        "Terminal": "false",
+        "StartupNotify": "true"
+      }
     },
     "asar": true
   }
