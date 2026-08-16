@@ -562,13 +562,13 @@ function renderEditor() {
     body = '<textarea class="editor-body" id="bodyInput" placeholder="开始记录你的想法...">' + esc(note.content || "") + '</textarea>';
   }
   wrap.innerHTML =
-    '<div class="editor-title-wrap"><span class="editor-prompt">&gt;</span><input class="editor-title" id="titleInput" placeholder="无标题" value="' + esc(note.title || "") + '" />' +
+    '<span class="editor-prompt">&gt;</span><input class="editor-title" id="titleInput" placeholder="无标题" value="' + esc(note.title || "") + '" />' +
     '<div class="editor-meta-bar">' +
       '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>创建于 ' + fmtFull(note.createdAt) + '</span>' +
       '<span class="meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>修改于 ' + fmtFull(note.updatedAt) + '</span>' +
       '<div class="tag-input-wrap" id="tagWrap">' + tagsHtml + '<input class="tag-input" id="tagInput" placeholder="' + tagPh + '" /></div>' +
     '</div>' +
-    body + '</div>';
+    body;
   var titleInput = document.getElementById("titleInput");
   var bodyInput = document.getElementById("bodyInput");
   var tagInput = document.getElementById("tagInput");
