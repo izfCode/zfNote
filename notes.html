@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✦ 星辰笔记 - 你的私人思考空间</title>
+<title>✦ 张帆笔记 - 你的私人思考空间</title>
 <style>
   :root[data-theme="light"] {
     --bg-primary: #fafaf9;
@@ -194,7 +194,7 @@
       <div class="logo">
         <div class="logo-icon">✦</div>
         <div>
-          <div>星辰笔记</div>
+          <div>张帆笔记</div>
           <div class="logo-subtitle">Star Notes · 思考即星辰</div>
         </div>
       </div>
@@ -269,7 +269,7 @@ function saveNotes() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.no
 function seedDemo() {
   var now = Date.now();
   var demo1Lines = [
-    "# 你好,这里是星辰笔记",
+    "# 你好,这里是张帆笔记",
     "",
     "这是你的第一个笔记。你可以:",
     "",
@@ -303,7 +303,7 @@ function seedDemo() {
     "- 用游戏化让学习变得有趣", "- 用 AI 总结长会议", "- 用 Markdown 写文档比 Word 快得多"
   ];
   state.notes = [
-    { id: uid(), title: "欢迎使用星辰笔记 ✦", content: demo1Lines.join("\n"), tags: ["入门","指南"], pinned: true, createdAt: now, updatedAt: now },
+    { id: uid(), title: "欢迎使用张帆笔记 ✦", content: demo1Lines.join("\n"), tags: ["入门","指南"], pinned: true, createdAt: now, updatedAt: now },
     { id: uid(), title: "本周阅读清单", content: demo2Lines.join("\n"), tags: ["阅读","个人"], pinned: false, createdAt: now - 86400000, updatedAt: now - 3600000 },
     { id: uid(), title: "项目灵感片段", content: demo3Lines.join("\n"), tags: ["灵感"], pinned: false, createdAt: now - 172800000, updatedAt: now - 86400000 }
   ];
@@ -427,7 +427,7 @@ function renderEditor() {
     document.getElementById("themeBtn").onclick = function() { state.theme = state.theme === "light" ? "dark" : "light"; applyTheme(); };
     document.getElementById("crumbNote").textContent = "· 未选择";
     statusbar.style.display = "none";
-    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✦</div><div class="empty-state-title">' + (state.notes.length ? "选择一篇笔记开始阅读" : "欢迎使用星辰笔记") + '</div><div class="empty-state-text">' + (state.notes.length ? "从左侧列表选择一篇,或点击下方按钮新建你的第一篇笔记。" : "一个轻量、本地化、支持 Markdown 的私人思考空间。") + '</div><button class="empty-state-btn" id="emptyNewBtn">' + (state.notes.length ? "新建笔记" : "开始记录") + '</button></div>';
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✦</div><div class="empty-state-title">' + (state.notes.length ? "选择一篇笔记开始阅读" : "欢迎使用张帆笔记") + '</div><div class="empty-state-text">' + (state.notes.length ? "从左侧列表选择一篇,或点击下方按钮新建你的第一篇笔记。" : "一个轻量、本地化、支持 Markdown 的私人思考空间。") + '</div><button class="empty-state-btn" id="emptyNewBtn">' + (state.notes.length ? "新建笔记" : "开始记录") + '</button></div>';
     document.getElementById("emptyNewBtn").onclick = createNote;
     return;
   }
