@@ -244,20 +244,6 @@
   .hud-spacer { flex: 1; }
   .hud-clock { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
 
-  /* ============ 扫描线动画(背景) ============ */
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
-    box-shadow: 0 0 12px var(--accent-glow);
-    z-index: 9999;
-    pointer-events: none;
-    animation: scanline 8s linear infinite;
-    opacity: 0.5;
-  }
-  @keyframes scanline { 0% { top: 0; } 100% { top: 100vh; } }
 
   /* ============ HUD 四角装饰 ============ */
   .editor-wrap { position: relative; }
