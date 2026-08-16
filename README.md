@@ -18,6 +18,14 @@
 
 一个轻量、本地化、支持 Markdown 的私人思考空间，现已打包为 Electron 桌面客户端。
 
+## 预览
+
+<p align="center">
+  <a href="https://github.com/izfCode/zfNote/releases/latest"><img alt="ZF·Notes 宣传海报" src="assets/poster.png" width="720"></a>
+</p>
+
+<p align="center"><em>思考即星辰，记录即轨迹 — 暗色与亮色双主题，左侧「你好，这里是张帆笔记」欢迎页。</em></p>
+
 ## 品牌资源
 
 | 文件 | 用途 |
